@@ -1,0 +1,9 @@
+= Hacking around with JDK
+Kacper Bak <http://kacperbak.de>
+
+:homepage: http://kacperbak.de
+:imagesdir: ./images
+:docinfo1: docinfo-footer.html
+
+This project contains my own examples of JDK technologies. The order of modules is random and has no special meaning.
+All necessary background information about an example are defined in the corresponding `XY-notes.html` file.
