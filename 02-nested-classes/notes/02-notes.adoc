@@ -1,0 +1,12 @@
+= 02 Nested classes
+Kacper Bak <http://kacperbak.de>
+
+:homepage: http://kacperbak.de
+:imagesdir: ./images
+:docinfo1: docinfo-footer.html
+
+...
+
+== Sources
+* http://docs.oracle.com/javase/tutorial/java/javaOO/nested.html[The Java™ Tutorials - Nested classes]
+
