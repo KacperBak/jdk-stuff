@@ -5,8 +5,129 @@ Kacper Bak <http://kacperbak.de>
 :imagesdir: ./images
 :docinfo1: docinfo-footer.html
 
-...
+Java allows you to define a class within another class.
+....
+class OuterClass {
+    ...
+    class NestedClass {
+        ...
+    }
+}
+....
+There a two types of member classes `inner classes` and `static nested classes`
+....
+class OuterClass {
+    ...
+    static class StaticNestedClass {
+        ...
+    }
+    class InnerClass {
+        ...
+    }
+}
+....
+
+* A nested class is a member of its enclosing class.
+* A member class can be declared private, public, protected, or package private.
+
+WARNING: If a member class is declared **public** or **protected**, the class is being exported as an API. Any change from `inner` to `static nested` class would break binary compatibility!
+
+There are `local classes`
+....
+TODO
+....
+There are `anonymous classes`
+....
+TODO
+....
+
+
+
+== Inner class
+
+* An inner class has access to other members of the enclosing class, even **private** members.
+* An inner class cannot define any static members itself, except **constants**.
+* An inner class is **associated with/tied to** an instance of its enclosing class, e.g. `InnerClass` can exist only within an instance of `OuterClass`.
+* This association or superfluous reference costs extra space and time, because both objects are not eligible for garbage collection.
+* Use this class **ONLY** if you have to access nonstatic members of the enclosing class!
+
+.Create an instance of an inner class
+....
+//First OuterClass has to be created!
+OuterClass outerObject = new OuterClass();
+
+//Then InnerClass can be created.
+OuterClass.InnerClass innerObject = outerObject.new InnerClass();
+....
+
+== Static nested class
+* A **static** nested class cannot refer directly to **instance** variables or methods defined in its enclosing class.
+* A **static** nested class can only access **static** members of it's enclosing class.
+* A **static** nested class can be instantiated!
+
+.Create an instance of a static nested class
+....
+OuterClass.StaticNestedClass nestedObject = new OuterClass.StaticNestedClass();
+....
+
+
+== When to use what?
+=== Nested classes
+* If a class is useful to only one other class, then it is logical to embed it in that class and keep the two together.
+* To increases encapsulation: Consider two top-level classes, A and B, where B needs access to members of A that would otherwise be declared private.
+By hiding class B within class A, A's members can be declared private and B can access them. In addition, B itself should be hidden from the outside world, with a `private` constructor.
+
+NOTE: A nested class should **ONLY** serve its enclosing class! If a nested class would be useful in some other context, then it should be a **top-level** class!
+
+=== Inner class
+* If you declare a nested class that **does** require access to an enclosing instance, declare an inner class.
+
+=== Static nested class
+* If you declare a nested class that **does not** require access to an enclosing instance, always put the `static` modifier in its declaration.
+
+
+== Shadowing
+* If a declaration of a type of the inner scope has the same name as another declaration in the outer scope, then the declaration shadows the declaration of the outer scope.
+* You cannot refer to a shadowed declaration by its name alone.
+
+NOTE: Inner scope shadows outer scope
+
+....
+public class ShadowTest {
+
+    public int x = 0;
+
+    class FirstLevel {
+
+        public int x = 1;
+
+        void methodInFirstLevel(int x) {
+
+            //x = 23
+            System.out.println("x = " + x);
+
+            //this.x = 1
+            System.out.println("this.x = " + this.x);
+
+            //ShadowTest.this.x = 0
+            System.out.println("ShadowTest.this.x = " + ShadowTest.this.x);
+        }
+    }
+
+    public static void main(String... args) {
+        ShadowTest st = new ShadowTest();
+        ShadowTest.FirstLevel fl = st.new FirstLevel();
+        fl.methodInFirstLevel(23);
+    }
+}
+....
+
+== Serialization
+* Serialization of inner classes, including local and anonymous classes, is strongly discouraged.
+* Possible compatibility issues can  occur if you serialize an inner class and then deserialize it with a different JRE implementation.
+
 
 == Sources
 * http://docs.oracle.com/javase/tutorial/java/javaOO/nested.html[The Java™ Tutorials - Nested classes]
+* http://www.amazon.de/Effective-Java-Programming-Language-Guide/dp/0321356683/ref=sr_1_1?ie=UTF8&qid=1420652823&sr=8-1&keywords=Effective+Java[Effective Java by Joshua Bloch - Item 22: Favor static member classes over nonstatic]
 
