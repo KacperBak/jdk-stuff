@@ -5,6 +5,9 @@ Kacper Bak <http://kacperbak.de>
 :imagesdir: ./images
 :docinfo1: docinfo-footer.html
 
+An enum type is a special **data type** based on a set of predefined constants.
+You should use enum types any time you need to represent a fixed set of constants e.g.: Choices on a menu
+
 == Sources
-* http://docs.oracle.com/javase/tutorial/java/javaOO/enum.html[The Java™ Tutorials]
+* http://docs.oracle.com/javase/tutorial/java/javaOO/enum.html[The Java™ Tutorials - Enum Types]
 

@@ -5,7 +5,21 @@ package de.kacperbak;
  */
 public class EnumTypesPlayground {
 
-    public static void main(String[] args) {
-        System.out.println("");
+    public String matchAbbreviation(CompassDirection cd){
+        switch(cd){
+            case NORTH: return "N";
+            case SOUTH: return "S";
+            case EAST: return "E";
+            case WEST: return "W";
+            default: return null;
+        }
+    }
+
+    public String concatAllCompassDirectionAbbrevations(){
+        String concatedCompassDirections = "";
+        for(CompassDirection cd : CompassDirection.values()){
+            concatedCompassDirections = concatedCompassDirections + cd.getAbbreviation();
+        }
+        return concatedCompassDirections;
     }
 }
