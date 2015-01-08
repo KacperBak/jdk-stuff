@@ -1,4 +1,4 @@
-package de.kacperbak;
+package de.kacperbak.nestedclasses;
 
 /**
  * Created by bakka on 07.01.15.

@@ -34,8 +34,25 @@ WARNING: If a member class is declared **public** or **protected**, the class is
 
 There are `local classes`
 ....
-TODO
+public class OuterClass {
+
+    ...
+
+    public boolean block(String parameter){
+
+        ...
+
+        class LocalClass{
+
+        }
+
+        ...
+    }
+
+    ...
+}
 ....
+
 There are `anonymous classes`
 ....
 TODO
@@ -70,6 +87,73 @@ OuterClass.InnerClass innerObject = outerObject.new InnerClass();
 OuterClass.StaticNestedClass nestedObject = new OuterClass.StaticNestedClass();
 ....
 
+== Local classes
+* Local classes are defined in a **block** `{...}` like a method body or an `if` clause and so on.
+....
+public class OuterClass {
+
+    private String regularExpression = "[^0-9]";
+
+    public boolean validatePhoneNumber(String phoneNumber){
+
+        int numberLength = 10;
+
+        class PhoneNumber{
+
+            ...
+
+            /**
+             * Access member of enclosing class - regularExpression
+             */
+            private String filterNumberForDigits(String rawNumber){
+                return rawNumber.replaceAll( regularExpression , "");
+            }
+
+            /**
+             * Access variable of enclosing block - numberLength - has been captured!
+             */
+            private String validateNumberForLength(String filteredNumber){
+                //numberLength = 7;
+                return ( filteredNumber.length() ==  numberLength) ? filteredNumber : null;
+            }
+        }
+
+        ...
+
+    }
+}
+
+....
+* Local classes can access the members (e.g. _regularExpression_ ) of its **enclosing class**.
+
+=== Captured variable
+* Local classes can access the local **variables** (e.g. _numberLength_ ) or **parameters** of its **enclosing block**. - This is called **capturing**.
+* Below Java 8 local classes could only access local variables that are declared **final**.
+* In Java 8 local classes can access local variables that are declared **final** or are **effectively final**.
+* A variable or parameter whose value is **never changed** after it is initialized is **effectively final**.
+* In case that a captured variable is trying to be **assigned** (e.g. _numberLength = 7;_) the following error occurs: _local variables referenced from an inner class must be final or effectively final_.
+
+=== Static declarations in local classes
+* Local classes are in that case similar to inner classes!
+* Local classes are non-static because they have access to instance members of the enclosing block.
+* An constant like `private static final int CONST = 1000` can be declared, most other static declarations not.
+* E.g. An `interface` is inherently static and **can't** be declared inside a block.
+....
+public void greetInEnglish() {
+    interface HelloThere {
+       public void greet();
+    }
+    class EnglishHelloThere implements HelloThere {
+        public void greet() {
+            System.out.println("Hello " + name);
+        }
+    }
+    HelloThere myGreeting = new EnglishHelloThere();
+    myGreeting.greet();
+}
+....
+
+
 
 == When to use what?
 === Nested classes
@@ -84,7 +168,6 @@ NOTE: A nested class should **ONLY** serve its enclosing class! If a nested clas
 
 === Static nested class
 * If you declare a nested class that **does not** require access to an enclosing instance, always put the `static` modifier in its declaration.
-
 
 == Shadowing
 * If a declaration of a type of the inner scope has the same name as another declaration in the outer scope, then the declaration shadows the declaration of the outer scope.

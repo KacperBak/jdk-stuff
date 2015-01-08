@@ -1,9 +1,9 @@
-package de.kacperbak;
+package de.kacperbak.nestedclasses;
 
 import junit.framework.Assert;
 import org.junit.Test;
 
-public class NestedClassesPlaygroundTest {
+public class OuterClassTest {
 
     private OuterClass oc = new OuterClass("myOuterField");
 
