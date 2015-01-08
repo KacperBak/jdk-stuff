@@ -27,6 +27,7 @@
     <modules>
         <module>01-enum-types</module>
         <module>02-nested-classes</module>
+        <module>03-java-collections</module>
     </modules>
 
     <dependencies>
