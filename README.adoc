@@ -6,4 +6,4 @@ Kacper Bak <http://kacperbak.de>
 :docinfo1: docinfo-footer.html
 
 This project contains my own examples of JDK technologies. The order of modules is random and has no special meaning.
-All necessary background information about an example are defined in the corresponding `XY-notes.html` file.
+All necessary background information about an example are defined in the corresponding `XY-notes.adoc` and `XY-notes.html` file.
