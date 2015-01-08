@@ -38,7 +38,6 @@ public class OuterClass {
              * Access member of OuterClass - regularExpression
              */
             private String filterNumberForDigits(String rawNumber){
-                regularExpression = "";
                 return rawNumber.replaceAll( regularExpression , "");
             }
 
