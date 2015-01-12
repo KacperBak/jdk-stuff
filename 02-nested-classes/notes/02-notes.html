@@ -444,13 +444,60 @@ If a member class is declared <strong>public</strong> or <strong>protected</stro
 }</pre>
 </div>
 </div>
+<div class="ulist">
+<ul>
+<li>
+<p>Local classes are always defined inside a block.</p>
+</li>
+<li>
+<p>Local classes can access the members of its <strong>enclosing class</strong>.</p>
+</li>
+<li>
+<p>Local classes are non-static because they have access to instance members of the enclosing block.</p>
+</li>
+</ul>
+</div>
 <div class="paragraph">
 <p>There are <code>anonymous classes</code></p>
 </div>
 <div class="literalblock">
 <div class="content">
-<pre>TODO</pre>
+<pre>public class OuterClass {
+
+    interface NewType{
+        public void foo();
+    }
+
+    public boolean block(String parameter){
+
+        ...
+
+        NewType object = new NewType(){
+
+            @Override
+            public void foo(){
+                ...
+            }
+        }
+        ...
+    }
+
+    ...
+}</pre>
 </div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Anonymous classes are like local classes except that they do not have a name.</p>
+</li>
+<li>
+<p>Anonymous classes are expressions defined in another expression.</p>
+</li>
+<li>
+<p>Anonymous classes make your code more concise.</p>
+</li>
+</ul>
 </div>
 </div>
 </div>
@@ -626,6 +673,81 @@ OuterClass.InnerClass innerObject = outerObject.new InnerClass();</pre>
 </div>
 </div>
 <div class="sect1">
+<h2 id="_anonymous_class">Anonymous class</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>Anonymous classes enable you to declare and instantiate a class at the same time.</p>
+</li>
+</ul>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>public class OuterClass {
+
+    private String regularExpression = "[^0-9]";
+
+    interface PhoneNumber{
+        public String getFormattedPhoneNumber(String rawNumber);
+    }
+
+    public boolean validatePhoneNumber(String phoneNumber){
+
+        /**
+         * Create instance with 'new' is like a constructor invocation.
+         */
+        PhoneNumber processedNumber = new PhoneNumber(){
+
+
+            @Override
+            public String getFormattedPhoneNumber(String rawNumber) {
+                return formatNumber(rawNumber);
+            }
+
+            ...
+
+            /**
+             * Access member of enclosing class - regularExpression
+             */
+            private String filterNumberForDigits(String rawNumber){
+                return rawNumber.replaceAll( regularExpression , "");
+            }
+
+            ...
+        };
+
+        ...
+    }
+}
+</pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The syntax of an anonymous class expression is like the invocation of a constructor inside a block of code. A new Instance is being created.</p>
+</li>
+<li>
+<p>Like local classes, anonymous classes can access the <strong>members</strong> of its <strong>enclosing class</strong>.</p>
+</li>
+<li>
+<p>Like local classes, anonymous classes can access the local <strong>variables</strong> or <strong>parameters</strong> of its <strong>enclosing block</strong>. - This is called <strong>capturing</strong>.</p>
+</li>
+<li>
+<p>Similar to local classes those <strong>variables</strong> or <strong>parameters</strong> has to be <strong>final</strong> or <strong>effectively final</strong>.</p>
+</li>
+<li>
+<p>Anonymous classes also have the same <strong>static</strong> restrictions as local classes with respect to their members.</p>
+</li>
+<li>
+<p>Like nested classes, <strong>shadowing</strong> is possible in case of declarations of same <strong>type</strong> with <strong>same name</strong> in inner and outer class.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
 <h2 id="_when_to_use_what">When to use what?</h2>
 <div class="sectionbody">
 <div class="sect2">
@@ -670,6 +792,29 @@ A nested class should <strong>ONLY</strong> serve its enclosing class! If a nest
 <ul>
 <li>
 <p>If you declare a nested class that <strong>does not</strong> require access to an enclosing instance, always put the <code>static</code> modifier in its declaration.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_local_class">Local class</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Check Oracle and Effective Java for proper usage. &#8230;</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_anonymous_class_2">Anonymous class</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Anonymous classes are eligible if only one instance is needed.</p>
+</li>
+<li>
+<p>Anonymous classes are ideal for implementing an interface that contains <strong>two</strong> or <strong>more</strong> methods.</p>
 </li>
 </ul>
 </div>
@@ -758,6 +903,15 @@ Inner scope shadows outer scope
 <p><a href="http://docs.oracle.com/javase/tutorial/java/javaOO/nested.html">The Java™ Tutorials - Nested classes</a></p>
 </li>
 <li>
+<p><a href="http://docs.oracle.com/javase/tutorial/java/javaOO/innerclasses.html">The Java™ Tutorials - Inner Class Example</a></p>
+</li>
+<li>
+<p><a href="http://docs.oracle.com/javase/tutorial/java/javaOO/localclasses.html">The Java™ Tutorials - Local Classes</a></p>
+</li>
+<li>
+<p><a href="http://docs.oracle.com/javase/tutorial/java/javaOO/anonymousclasses.html">The Java™ Tutorials - Anonymous Classes</a></p>
+</li>
+<li>
 <p><a href="http://www.amazon.de/Effective-Java-Programming-Language-Guide/dp/0321356683/ref=sr_1_1?ie=UTF8&amp;qid=1420652823&amp;sr=8-1&amp;keywords=Effective+Java">Effective Java by Joshua Bloch - Item 22: Favor static member classes over nonstatic</a></p>
 </li>
 </ul>
@@ -767,7 +921,7 @@ Inner scope shadows outer scope
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2015-01-08 21:00:52 +01:00
+Last updated 2015-01-12 16:52:35 +01:00
 </div>
 <div style="color: #dddddd">
     <a href="https://twitter.com/KacperBak" class="twitter-follow-button" data-show-count="false" data-size="large">Follow @KacperBak</a>

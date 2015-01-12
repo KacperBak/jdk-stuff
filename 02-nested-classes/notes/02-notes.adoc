@@ -53,11 +53,39 @@ public class OuterClass {
 }
 ....
 
+* Local classes are always defined inside a block.
+* Local classes can access the members of its **enclosing class**.
+* Local classes are non-static because they have access to instance members of the enclosing block.
+
 There are `anonymous classes`
 ....
-TODO
+public class OuterClass {
+
+    interface NewType{
+        public void foo();
+    }
+
+    public boolean block(String parameter){
+
+        ...
+
+        NewType object = new NewType(){
+
+            @Override
+            public void foo(){
+                ...
+            }
+        }
+        ...
+    }
+
+    ...
+}
 ....
 
+* Anonymous classes are like local classes except that they do not have a name.
+* Anonymous classes are expressions defined in another expression.
+* Anonymous classes make your code more concise.
 
 
 == Inner class
@@ -153,7 +181,54 @@ public void greetInEnglish() {
 }
 ....
 
+== Anonymous class
+* Anonymous classes enable you to declare and instantiate a class at the same time.
 
+....
+public class OuterClass {
+
+    private String regularExpression = "[^0-9]";
+
+    interface PhoneNumber{
+        public String getFormattedPhoneNumber(String rawNumber);
+    }
+
+    public boolean validatePhoneNumber(String phoneNumber){
+
+        /**
+         * Create instance with 'new' is like a constructor invocation.
+         */
+        PhoneNumber processedNumber = new PhoneNumber(){
+
+
+            @Override
+            public String getFormattedPhoneNumber(String rawNumber) {
+                return formatNumber(rawNumber);
+            }
+
+            ...
+
+            /**
+             * Access member of enclosing class - regularExpression
+             */
+            private String filterNumberForDigits(String rawNumber){
+                return rawNumber.replaceAll( regularExpression , "");
+            }
+
+            ...
+        };
+
+        ...
+    }
+}
+
+....
+* The syntax of an anonymous class expression is like the invocation of a constructor inside a block of code. A new Instance is being created.
+* Like local classes, anonymous classes can access the **members** of its **enclosing class**.
+* Like local classes, anonymous classes can access the local **variables** or **parameters** of its **enclosing block**. - This is called **capturing**.
+* Similar to local classes those **variables** or **parameters** has to be **final** or **effectively final**.
+* Anonymous classes also have the same **static** restrictions as local classes with respect to their members.
+* Like nested classes, **shadowing** is possible in case of declarations of same **type** with **same name** in inner and outer class.
 
 == When to use what?
 === Nested classes
@@ -168,6 +243,13 @@ NOTE: A nested class should **ONLY** serve its enclosing class! If a nested clas
 
 === Static nested class
 * If you declare a nested class that **does not** require access to an enclosing instance, always put the `static` modifier in its declaration.
+
+=== Local class
+* Check Oracle and Effective Java for proper usage. ...
+
+=== Anonymous class
+* Anonymous classes are eligible if only one instance is needed.
+* Anonymous classes are ideal for implementing an interface that contains **two** or **more** methods.
 
 == Shadowing
 * If a declaration of a type of the inner scope has the same name as another declaration in the outer scope, then the declaration shadows the declaration of the outer scope.
@@ -212,5 +294,8 @@ public class ShadowTest {
 
 == Sources
 * http://docs.oracle.com/javase/tutorial/java/javaOO/nested.html[The Java™ Tutorials - Nested classes]
+* http://docs.oracle.com/javase/tutorial/java/javaOO/innerclasses.html[The Java™ Tutorials - Inner Class Example]
+* http://docs.oracle.com/javase/tutorial/java/javaOO/localclasses.html[The Java™ Tutorials - Local Classes]
+* http://docs.oracle.com/javase/tutorial/java/javaOO/anonymousclasses.html[The Java™ Tutorials - Anonymous Classes]
 * http://www.amazon.de/Effective-Java-Programming-Language-Guide/dp/0321356683/ref=sr_1_1?ie=UTF8&qid=1420652823&sr=8-1&keywords=Effective+Java[Effective Java by Joshua Bloch - Item 22: Favor static member classes over nonstatic]
 
