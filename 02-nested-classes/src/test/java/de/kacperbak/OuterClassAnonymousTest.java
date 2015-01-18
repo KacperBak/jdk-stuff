@@ -1,14 +1,14 @@
-package de.kacperbak.anonymousclass;
+package de.kacperbak;
 
 import junit.framework.Assert;
 import org.junit.Test;
 
 
-public class OuterClassTest {
+public class OuterClassAnonymousTest {
 
     private String phoneNumber1 = "456-7890";
     private String phoneNumber2 = "123-456-7890";
-    private OuterClass oc = new OuterClass();
+    private OuterClassAnonymous oc = new OuterClassAnonymous();
 
     @Test
     public void testValidatePhoneNumberCaptured() throws Exception {

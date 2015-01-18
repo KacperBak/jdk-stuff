@@ -1,15 +1,15 @@
-package de.kacperbak.nestedclasses;
+package de.kacperbak;
 
 /**
  * Created by bakka on 07.01.15.
  */
-public class OuterClass {
+public class OuterClassNested {
 
     private static String outerFieldStatic = "myOuterFieldStatic";
 
     private String outerField;
 
-    public OuterClass(String outerField) {
+    public OuterClassNested(String outerField) {
         this.outerField = outerField;
     }
 

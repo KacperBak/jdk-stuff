@@ -1,13 +1,13 @@
-package de.kacperbak.localclass;
+package de.kacperbak;
 
 import junit.framework.Assert;
 import org.junit.Test;
 
-public class OuterClassTest {
+public class OuterClassLocalTest {
 
     private String phoneNumber1 = "456-7890";
     private String phoneNumber2 = "123-456-7890";
-    private OuterClass oc = new OuterClass();
+    private OuterClassLocal oc = new OuterClassLocal();
 
 
     @Test

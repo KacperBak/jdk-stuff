@@ -1,9 +1,9 @@
-package de.kacperbak.localclass;
+package de.kacperbak;
 
 /**
  * Created by bakka on 08.01.15.
  */
-public class OuterClass {
+public class OuterClassLocal {
 
     private String regularExpression = "[^0-9]";
 

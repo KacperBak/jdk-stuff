@@ -1,9 +1,9 @@
-package de.kacperbak.anonymousclass;
+package de.kacperbak;
 
 /**
  * Created by bakka on 11.01.15.
  */
-public class OuterClass {
+public class OuterClassAnonymous {
 
     private String regularExpression = "[^0-9]";
 
