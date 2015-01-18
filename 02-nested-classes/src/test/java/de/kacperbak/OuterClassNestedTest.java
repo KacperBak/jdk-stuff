@@ -26,7 +26,7 @@ public class OuterClassNestedTest {
         Assert.assertEquals(oc.getOuterField(), ic.fetchOuterField());
 
         //StaticNestedClass
-        Assert.assertEquals(OuterClassNested.getOuterFieldStatic(), OuterClassNested.StaticNestedClass.getOuterField());
+        Assert.assertEquals(OuterClassNested.getOuterFieldStatic(), OuterClassNested.StaticNestedClass.getOuterFieldStatic());
     }
 
     @Test

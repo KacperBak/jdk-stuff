@@ -86,7 +86,7 @@ public class OuterClassNested {
             return staticNestedFieldStatic;
         }
 
-        public static String getOuterField() {
+        public static String getOuterFieldStatic() {
             return outerFieldStatic;
         }
     }
