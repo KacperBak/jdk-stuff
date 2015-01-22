@@ -369,6 +369,56 @@ span.icon > [class^="icon-"], span.icon > [class*=" icon-"] { cursor: default; }
 <div id="content">
 <div id="preamble">
 <div class="sectionbody">
+<div class="toc">
+<div class="title">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_introduction">Introduction</a></li>
+<li><a href="#_inner_class">Inner class</a></li>
+<li><a href="#_static_nested_class">Static nested class</a></li>
+<li><a href="#_local_classes">Local classes</a></li>
+<li>
+<ul class="sectlevel2">
+<li><a href="#_captured_variable">Captured variable</a></li>
+<li><a href="#_static_declarations_in_local_classes">Static declarations in local classes</a></li>
+</ul>
+</li>
+<li><a href="#_anonymous_class">Anonymous class</a></li>
+<li><a href="#_lambda_expressions">Lambda Expressions</a></li>
+<li>
+<ul class="sectlevel2">
+<li><a href="#_syntax">Syntax</a></li>
+<li><a href="#_capturing">Capturing</a></li>
+<li><a href="#_scope">Scope</a></li>
+<li><a href="#_target_type">Target Type</a></li>
+<li><a href="#_checked_exceptions">Checked Exceptions</a></li>
+<li><a href="#_functional_interfaces">Functional Interfaces</a></li>
+<li><a href="#_method_references">Method References</a></li>
+<li><a href="#_constructor_references">Constructor References</a></li>
+<li><a href="#_default_methods">Default Methods</a></li>
+<li><a href="#_static_methods_in_interfaces">Static Methods in interfaces</a></li>
+</ul>
+</li>
+<li><a href="#_when_to_use_what">When to use what?</a></li>
+<li>
+<ul class="sectlevel2">
+<li><a href="#_nested_classes">Nested classes</a></li>
+<li><a href="#_inner_class_2">Inner class</a></li>
+<li><a href="#_static_nested_class_2">Static nested class</a></li>
+<li><a href="#_local_class">Local class</a></li>
+<li><a href="#_anonymous_class_2">Anonymous class</a></li>
+</ul>
+</li>
+<li><a href="#_shadowing">Shadowing</a></li>
+<li><a href="#_serialization">Serialization</a></li>
+<li><a href="#_sources">Sources</a></li>
+</ul>
+</div>
+
+</div>
+</div>
+<div class="sect1">
+<h2 id="_introduction">Introduction</h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p>Java allows you to define a class within another class.</p>
 </div>
@@ -905,22 +955,32 @@ add(int x, int y){          // Method declaration
 </div>
 </div>
 <div class="literalblock">
-<div class="title">Further Facts</div>
 <div class="content">
-<pre>p -&gt; p.getGender() == Person.Sex.MALE &amp;&amp; p.getAge() &gt;= 18 &amp;&amp; p.getAge() &lt;= 25</pre>
+<pre>example missing: compare anonymous class to lambda with a Person domain object</pre>
 </div>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>p, which represents an instance of the Person class.</p>
-</li>
-</ul>
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_capturing_and_scope">Capturing and Scope</h3>
+<h3 id="_capturing">Capturing</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Any local variable, formal parameter, or exception parameter used but not declared in a lambda expression must either be declared <strong>final</strong> or be <strong>effectively final</strong>.</p>
+</li>
+<li>
+<p>Any local variable used but not declared in a lambda body <strong>must be</strong> definitely <strong>assigned</strong> before the lambda body.</p>
+</li>
+</ul>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>example missing: compare anonymous class capturing with lambda capturing</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_scope">Scope</h3>
 <div class="ulist">
 <ul>
 <li>
@@ -931,19 +991,53 @@ add(int x, int y){          // Method declaration
 </li>
 </ul>
 </div>
+<div class="literalblock">
+<div class="content">
+<pre>example missing: compare anonymous class scope with lambda scope</pre>
+</div>
+</div>
 </div>
 <div class="sect2">
-<h3 id="_target_typing">Target Typing</h3>
+<h3 id="_target_type">Target Type</h3>
 <div class="ulist">
 <ul>
 <li>
 <p>To determine the <strong>type</strong> of a lambda expression, the Java compiler uses the target type of the <strong>context</strong> or <strong>situation</strong> in which the lambda expression was found.</p>
 </li>
 <li>
-<p>You can only use lambda expressions in situations in which the Java compiler can determine the target type.</p>
+<p>You can only use lambda expressions in situations in which the Java compiler can determine the target type, like:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Variable declarations</p>
 </li>
 <li>
-<p>Example: overload resolution and type argument inference</p>
+<p>Assignments</p>
+</li>
+<li>
+<p>Return statements</p>
+</li>
+<li>
+<p>&#8230;</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Further example: overload resolution and type argument inference</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_checked_exceptions">Checked Exceptions</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>How to handle exceptions thrown inside the lambda body?</p>
+</li>
+<li>
+<p>RealImpatient-P.8</p>
 </li>
 </ul>
 </div>
@@ -968,6 +1062,34 @@ add(int x, int y){          // Method declaration
 <p>Why use @FunctionalInterface? See Oracle Java Spec: Not so obvious cases</p>
 </li>
 </ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_method_references">Method References</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Method references provide easy-to-read lambda expressions for methods that already have a name.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_constructor_references">Constructor References</h3>
+<div class="paragraph">
+<p>&#8230;</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_default_methods">Default Methods</h3>
+<div class="paragraph">
+<p>&#8230;</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_static_methods_in_interfaces">Static Methods in interfaces</h3>
+<div class="paragraph">
+<p>&#8230;</p>
 </div>
 </div>
 </div>
@@ -1164,7 +1286,7 @@ Inner scope shadows outer scope
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2015-01-22 10:02:49 +01:00
+Last updated 2015-01-22 11:07:00 +01:00
 </div>
 <div style="color: #dddddd">
     <a href="https://twitter.com/KacperBak" class="twitter-follow-button" data-show-count="false" data-size="large">Follow @KacperBak</a>

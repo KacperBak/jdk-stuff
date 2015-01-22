@@ -4,6 +4,12 @@ Kacper Bak <http://kacperbak.de>
 :homepage: http://kacperbak.de
 :imagesdir: ./images
 :docinfo1: docinfo-footer.html
+:toc:
+:toc-placement: manual
+
+toc::[]
+
+== Introduction
 
 Java allows you to define a class within another class.
 ....
@@ -296,30 +302,39 @@ x -> x * x
 () -> { if (...) return "done"; System.out.println("done"); }   // Error!
 ....
 
-////
-Simple example
-////
-
-.Further Facts
 ....
-p -> p.getGender() == Person.Sex.MALE && p.getAge() >= 18 && p.getAge() <= 25
+example missing: compare anonymous class to lambda with a Person domain object
 ....
-* p, which represents an instance of the Person class.
 
 === Capturing
 * Any local variable, formal parameter, or exception parameter used but not declared in a lambda expression must either be declared **final** or be **effectively final**.
 * Any local variable used but not declared in a lambda body **must be** definitely **assigned** before the lambda body.
 
+....
+example missing: compare anonymous class capturing with lambda capturing
+....
+
 === Scope
 * Unlike code appearing in anonymous class declarations, the meaning of **names** and the **`this`** and **`super`** keywords appearing in a lambda body, along with the accessibility of referenced declarations, are the same as in the surrounding context.
 * Except that lambda parameters introduce new names.
 
-=== Target Typing
+....
+example missing: compare anonymous class scope with lambda scope
+....
+
+
+=== Target Type
 * To determine the **type** of a lambda expression, the Java compiler uses the target type of the **context** or **situation** in which the lambda expression was found.
-* You can only use lambda expressions in situations in which the Java compiler can determine the target type.
+* You can only use lambda expressions in situations in which the Java compiler can determine the target type, like:
+** Variable declarations
+** Assignments
+** Return statements
+** ...
+* Further example: overload resolution and type argument inference
 
-
-* Example: overload resolution and type argument inference
+=== Checked Exceptions
+* How to handle exceptions thrown inside the lambda body?
+* RealImpatient-P.8
 
 === Functional Interfaces
 * Evaluation of a lambda expression produces an instance of a functional interface.
@@ -327,6 +342,18 @@ p -> p.getGender() == Person.Sex.MALE && p.getAge() >= 18 && p.getAge() <= 25
 * Annotation: @FunctionalInterface - RealImpatient-P.7
 * In case of a simple interface that contains only **ONE** method.
 * Why use @FunctionalInterface? See Oracle Java Spec: Not so obvious cases
+
+=== Method References
+* Method references provide easy-to-read lambda expressions for methods that already have a name.
+
+=== Constructor References
+...
+
+=== Default Methods
+...
+
+=== Static Methods in interfaces
+...
 
 
 == When to use what?
