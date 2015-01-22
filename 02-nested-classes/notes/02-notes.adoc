@@ -302,11 +302,45 @@ x -> x * x
 () -> { if (...) return "done"; System.out.println("done"); }   // Error!
 ....
 
+=== Using a lambda expression instead of an anonymous class
+* We are going to sort an ArrayList populated with Persons.
 ....
-example missing: compare anonymous class to lambda with a Person domain object
+public class Person {
+
+    private String name;
+    private int age;
+    ...
+}
 ....
 
+* The order should be based on the `age` of an person, so we need to implement an `Comparator<Person>` interface.
+* The sorting itself is done by the `Collections.sort(List<T> list, Comparator<? super T> c)` utility method.
+....
+// Java 7 - using an anonymous class
+Collections.sort(persons, new Comparator<Person>() {
+    @Override
+    public int compare(Person o1, Person o2) {
+        return Integer.compare(o1.getAge(), o2.getAge());
+    }
+});
+
+// Java 8 - using a lambda expression
+Collections.sort(persons, (p1, p2) -> Integer.compare(p1.getAge(), p2.getAge()));
+....
+
+* But how does the compiler know that Comparator can be substituted by a lambda expression?
+* Because the Comperator interface is annotated with `@FunctionalInterface`.
+
+=== Functional Interfaces
+* Is a simple interface that contains only **ONE** abstract method.
+* Evaluation of a lambda expression produces **always** an instance of a functional interface.
+* So behind the scenes an object is created to maintain backwards compatibility.
+* In conclusion there is always possible to use a **lambda expression** instead of an **anonymous class**.
+
+* See Oracle Java Spec: Not so obvious cases with redeclared methods from `Object.class` like `toString()` or `clone()`.
+
 === Capturing
+* Excellent descripton of closures/capturing in RealImpatient8-P.10
 * Any local variable, formal parameter, or exception parameter used but not declared in a lambda expression must either be declared **final** or be **effectively final**.
 * Any local variable used but not declared in a lambda body **must be** definitely **assigned** before the lambda body.
 
@@ -314,7 +348,7 @@ example missing: compare anonymous class to lambda with a Person domain object
 example missing: compare anonymous class capturing with lambda capturing
 ....
 
-=== Scope
+=== Scope, Name conflicts, Shadowing
 * Unlike code appearing in anonymous class declarations, the meaning of **names** and the **`this`** and **`super`** keywords appearing in a lambda body, along with the accessibility of referenced declarations, are the same as in the surrounding context.
 * Except that lambda parameters introduce new names.
 
@@ -335,13 +369,6 @@ example missing: compare anonymous class scope with lambda scope
 === Checked Exceptions
 * How to handle exceptions thrown inside the lambda body?
 * RealImpatient-P.8
-
-=== Functional Interfaces
-* Evaluation of a lambda expression produces an instance of a functional interface.
-* So behind the scenes an object is created to maintain backwards compatibility.
-* Annotation: @FunctionalInterface - RealImpatient-P.7
-* In case of a simple interface that contains only **ONE** method.
-* Why use @FunctionalInterface? See Oracle Java Spec: Not so obvious cases
 
 === Method References
 * Method references provide easy-to-read lambda expressions for methods that already have a name.

@@ -387,11 +387,12 @@ span.icon > [class^="icon-"], span.icon > [class*=" icon-"] { cursor: default; }
 <li>
 <ul class="sectlevel2">
 <li><a href="#_syntax">Syntax</a></li>
+<li><a href="#_using_a_lambda_expression_instead_of_an_anonymous_class">Using a lambda expression instead of an anonymous class</a></li>
+<li><a href="#_functional_interfaces">Functional Interfaces</a></li>
 <li><a href="#_capturing">Capturing</a></li>
-<li><a href="#_scope">Scope</a></li>
+<li><a href="#_scope_name_conflicts_shadowing">Scope, Name conflicts, Shadowing</a></li>
 <li><a href="#_target_type">Target Type</a></li>
 <li><a href="#_checked_exceptions">Checked Exceptions</a></li>
-<li><a href="#_functional_interfaces">Functional Interfaces</a></li>
 <li><a href="#_method_references">Method References</a></li>
 <li><a href="#_constructor_references">Constructor References</a></li>
 <li><a href="#_default_methods">Default Methods</a></li>
@@ -954,17 +955,91 @@ add(int x, int y){          // Method declaration
 <pre>() -&gt; { if (...) return "done"; System.out.println("done"); }   // Error!</pre>
 </div>
 </div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_using_a_lambda_expression_instead_of_an_anonymous_class">Using a lambda expression instead of an anonymous class</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>We are going to sort an ArrayList populated with Persons.</p>
+</li>
+</ul>
+</div>
 <div class="literalblock">
 <div class="content">
-<pre>example missing: compare anonymous class to lambda with a Person domain object</pre>
+<pre>public class Person {
+
+    private String name;
+    private int age;
+    ...
+}</pre>
 </div>
 </div>
+<div class="ulist">
+<ul>
+<li>
+<p>The order should be based on the <code>age</code> of an person, so we need to implement an <code>Comparator&lt;Person&gt;</code> interface.</p>
+</li>
+<li>
+<p>The sorting itself is done by the <code>Collections.sort(List&lt;T&gt; list, Comparator&lt;? super T&gt; c)</code> utility method.</p>
+</li>
+</ul>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>// Java 7 - using an anonymous class
+Collections.sort(persons, new Comparator&lt;Person&gt;() {
+    @Override
+    public int compare(Person o1, Person o2) {
+        return Integer.compare(o1.getAge(), o2.getAge());
+    }
+});
+
+// Java 8 - using a lambda expression
+Collections.sort(persons, (p1, p2) -&gt; Integer.compare(p1.getAge(), p2.getAge()));</pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>But how does the compiler know that Comparator can be substituted by a lambda expression?</p>
+</li>
+<li>
+<p>Because the Comperator interface is annotated with <code>@FunctionalInterface</code>.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_functional_interfaces">Functional Interfaces</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Is a simple interface that contains only <strong>ONE</strong> abstract method.</p>
+</li>
+<li>
+<p>Evaluation of a lambda expression produces <strong>always</strong> an instance of a functional interface.</p>
+</li>
+<li>
+<p>So behind the scenes an object is created to maintain backwards compatibility.</p>
+</li>
+<li>
+<p>In conclusion there is always possible to use a <strong>lambda expression</strong> instead of an <strong>anonymous class</strong>.</p>
+</li>
+<li>
+<p>See Oracle Java Spec: Not so obvious cases with redeclared methods from <code>Object.class</code> like <code>toString()</code> or <code>clone()</code>.</p>
+</li>
+</ul>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_capturing">Capturing</h3>
 <div class="ulist">
 <ul>
+<li>
+<p>Excellent descripton of closures/capturing in RealImpatient8-P.10</p>
+</li>
 <li>
 <p>Any local variable, formal parameter, or exception parameter used but not declared in a lambda expression must either be declared <strong>final</strong> or be <strong>effectively final</strong>.</p>
 </li>
@@ -980,7 +1055,7 @@ add(int x, int y){          // Method declaration
 </div>
 </div>
 <div class="sect2">
-<h3 id="_scope">Scope</h3>
+<h3 id="_scope_name_conflicts_shadowing">Scope, Name conflicts, Shadowing</h3>
 <div class="ulist">
 <ul>
 <li>
@@ -1038,28 +1113,6 @@ add(int x, int y){          // Method declaration
 </li>
 <li>
 <p>RealImpatient-P.8</p>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_functional_interfaces">Functional Interfaces</h3>
-<div class="ulist">
-<ul>
-<li>
-<p>Evaluation of a lambda expression produces an instance of a functional interface.</p>
-</li>
-<li>
-<p>So behind the scenes an object is created to maintain backwards compatibility.</p>
-</li>
-<li>
-<p>Annotation: @FunctionalInterface - RealImpatient-P.7</p>
-</li>
-<li>
-<p>In case of a simple interface that contains only <strong>ONE</strong> method.</p>
-</li>
-<li>
-<p>Why use @FunctionalInterface? See Oracle Java Spec: Not so obvious cases</p>
 </li>
 </ul>
 </div>
@@ -1286,7 +1339,7 @@ Inner scope shadows outer scope
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2015-01-22 11:07:00 +01:00
+Last updated 2015-01-22 23:33:30 +01:00
 </div>
 <div style="color: #dddddd">
     <a href="https://twitter.com/KacperBak" class="twitter-follow-button" data-show-count="false" data-size="large">Follow @KacperBak</a>
