@@ -516,7 +516,7 @@ If a member class is declared <strong>public</strong> or <strong>protected</stro
 <p>An inner class is <strong>associated with/tied to</strong> an instance of its enclosing class, e.g. <code>InnerClass</code> can exist only within an instance of <code>OuterClass</code>.</p>
 </li>
 <li>
-<p>This association or superfluous reference costs extra space and time, because both objects are not eligible for garbage collection.</p>
+<p>This association or superfluous reference costs extra space and time, because if one of the objects is used <strong>both</strong> objects are not eligible for garbage collection.</p>
 </li>
 <li>
 <p>Use this class <strong>ONLY</strong> if you have to access nonstatic members of the enclosing class!</p>
@@ -566,6 +566,9 @@ OuterClass.InnerClass innerObject = outerObject.new InnerClass();</pre>
 <ul>
 <li>
 <p>Local classes are defined in a <strong>block</strong> <code>{...}</code> like a method body or an <code>if</code> clause and so on.</p>
+</li>
+<li>
+<p>To keep up a good readability the implementation should be short!</p>
 </li>
 </ul>
 </div>
@@ -678,7 +681,10 @@ OuterClass.InnerClass innerObject = outerObject.new InnerClass();</pre>
 <div class="ulist">
 <ul>
 <li>
-<p>Anonymous classes enable you to declare and instantiate a class at the same time.</p>
+<p>Anonymous classes enable you to declare and instantiate a class at the same time inside a <strong>block</strong> <code>{...}</code>.</p>
+</li>
+<li>
+<p>To keep up a good readability the implementation should be short!</p>
 </li>
 </ul>
 </div>
@@ -748,6 +754,225 @@ OuterClass.InnerClass innerObject = outerObject.new InnerClass();</pre>
 </div>
 </div>
 <div class="sect1">
+<h2 id="_lambda_expressions">Lambda Expressions</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>Like anonymous classes has lambda expressions the intention to pass <strong>functionality</strong> as an <strong>argument</strong>.</p>
+</li>
+<li>
+<p>Before Java 8 it was always necessary to create an instance with <em>new</em> belonging to a class that has a method with the desired code.</p>
+</li>
+<li>
+<p>Lambda expression evaluation does <strong>NOT cause</strong> the <strong>execution</strong> of the expression&#8217;s body, instead this <strong>may occur</strong> at a <strong>later time</strong> when an appropriate method of the functional interface is invoked.</p>
+</li>
+</ul>
+</div>
+<div class="sect2">
+<h3 id="_syntax">Syntax</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>A lambda expression is like a method declaration: it provides a list of formal <strong>parameters</strong> and a <strong>body</strong> expressed in terms of those parameters.</p>
+</li>
+<li>
+<p><code>Parameters</code> <code>-&gt;</code> <code>Body</code></p>
+</li>
+<li>
+<p>Cause of the <strong>missing</strong> <em>methodName</em>  consider lambda expressions as <strong>anonymous methods</strong>.</p>
+</li>
+</ul>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>(int x, int y) -&gt; x + y     // Lambda expression
+
+
+add(int x, int y){          // Method declaration
+    return x + y;
+}</pre>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_parameter">Parameter</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>A comma-separated list of formal parameters.</p>
+</li>
+<li>
+<p>The formal parameters of a lambda expression <strong>may have</strong> either explicitly <strong>declared types</strong> or implicitly <strong>inferred types</strong>. These styles cannot be mixed!</p>
+</li>
+</ul>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>(int x, int y) -&gt; x + y     // Declared-type parameters
+(x, y) -&gt; x + y             // Inferred-type parameters</pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Omit the parentheses too if there is only one parameter.</p>
+</li>
+</ul>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>x -&gt; x * x                  // Inferred-type parameter, no parantheses</pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>If the formal parameters have inferred types, then these types are derived from the functional interface type targeted by the lambda expression. See target type.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_token">Token</h4>
+<div class="ulist">
+<ul>
+<li>
+<p><code>-&gt;</code> separates the parameter list from the body.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_body">Body</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>Like a method body, a lambda body describes code that will be executed whenever an invocation occurs.</p>
+</li>
+<li>
+<p>A lambda body is either a <strong>single expression</strong> or a <strong>block</strong>.</p>
+</li>
+<li>
+<p>If you specify a <strong>single expression</strong>, then the Java runtime evaluates the expression and then returns its value.</p>
+</li>
+</ul>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>x -&gt; x * x</pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>In case of a <strong>block</strong>, the body has to be ether <strong>void-compatible</strong> OR <strong>value-compatible</strong>.</p>
+</li>
+<li>
+<p>A block lambda body is <strong>void-compatible</strong> if every return statement in the block has the form <code>return;</code></p>
+</li>
+</ul>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>() -&gt; {}
+() -&gt; { System.out.println("done"); }           // Returns 'void'
+() -&gt; System.out.println("done")                // A single void method invocation does NOT need braces!</pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>A block lambda body is <strong>value-compatible</strong> if it cannot <strong>complete normally</strong> (e.g. is not reachable, caused by <code>if</code> clause) and <strong>every return statement</strong> in the block has the form <code>return Expression;</code>.</p>
+</li>
+</ul>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>() -&gt; { return "done"; }                        // Returns a 'String' value
+() -&gt; { if (...) return 1; else return 0; }     // In every case a value is returned!</pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>It is a compile-time error if a block lambda body is <strong>NEITHER</strong> void-compatible <strong>NOR</strong> value-compatible.</p>
+</li>
+</ul>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>() -&gt; { if (...) return "done"; System.out.println("done"); }   // Error!</pre>
+</div>
+</div>
+<div class="literalblock">
+<div class="title">Further Facts</div>
+<div class="content">
+<pre>p -&gt; p.getGender() == Person.Sex.MALE &amp;&amp; p.getAge() &gt;= 18 &amp;&amp; p.getAge() &lt;= 25</pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>p, which represents an instance of the Person class.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_capturing_and_scope">Capturing and Scope</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Unlike code appearing in anonymous class declarations, the meaning of <strong>names</strong> and the <strong><code>this</code></strong> and <strong><code>super</code></strong> keywords appearing in a lambda body, along with the accessibility of referenced declarations, are the same as in the surrounding context.</p>
+</li>
+<li>
+<p>Except that lambda parameters introduce new names.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_target_typing">Target Typing</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>To determine the <strong>type</strong> of a lambda expression, the Java compiler uses the target type of the <strong>context</strong> or <strong>situation</strong> in which the lambda expression was found.</p>
+</li>
+<li>
+<p>You can only use lambda expressions in situations in which the Java compiler can determine the target type.</p>
+</li>
+<li>
+<p>Example: overload resolution and type argument inference</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_functional_interfaces">Functional Interfaces</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Evaluation of a lambda expression produces an instance of a functional interface.</p>
+</li>
+<li>
+<p>So behind the scenes an object is created to maintain backwards compatibility.</p>
+</li>
+<li>
+<p>Annotation: @FunctionalInterface - RealImpatient-P.7</p>
+</li>
+<li>
+<p>In case of a simple interface that contains only <strong>ONE</strong> method.</p>
+</li>
+<li>
+<p>Why use @FunctionalInterface? See Oracle Java Spec: Not so obvious cases</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
 <h2 id="_when_to_use_what">When to use what?</h2>
 <div class="sectionbody">
 <div class="sect2">
@@ -781,7 +1006,10 @@ A nested class should <strong>ONLY</strong> serve its enclosing class! If a nest
 <div class="ulist">
 <ul>
 <li>
-<p>If you declare a nested class that <strong>does</strong> require access to an enclosing instance, declare an inner class.</p>
+<p>Inner classes are eligible if you need access to the <strong>instance</strong> members of its enclosing class.</p>
+</li>
+<li>
+<p>Inner classes are eligible if you don&#8217;t require access to local variables or parameters (capturing).</p>
 </li>
 </ul>
 </div>
@@ -791,7 +1019,10 @@ A nested class should <strong>ONLY</strong> serve its enclosing class! If a nest
 <div class="ulist">
 <ul>
 <li>
-<p>If you declare a nested class that <strong>does not</strong> require access to an enclosing instance, always put the <code>static</code> modifier in its declaration.</p>
+<p>Static nested class are eligible if you need access to the <strong>static</strong> fields and functions of its enclosing class.</p>
+</li>
+<li>
+<p>Inner classes are eligible if you don&#8217;t require access to local variables or parameters (capturing).</p>
 </li>
 </ul>
 </div>
@@ -801,7 +1032,16 @@ A nested class should <strong>ONLY</strong> serve its enclosing class! If a nest
 <div class="ulist">
 <ul>
 <li>
-<p>Check Oracle and Effective Java for proper usage. &#8230;</p>
+<p>Local classes are eligible if you need a new <strong>named type</strong>.</p>
+</li>
+<li>
+<p>Local classes are eligible if you need <strong>more than one</strong> instance.</p>
+</li>
+<li>
+<p>Local classes are eligible if you need to access its constructor.</p>
+</li>
+<li>
+<p>Local classes are eligible if you need access to the members of its enclosing class.</p>
 </li>
 </ul>
 </div>
@@ -811,10 +1051,13 @@ A nested class should <strong>ONLY</strong> serve its enclosing class! If a nest
 <div class="ulist">
 <ul>
 <li>
-<p>Anonymous classes are eligible if only one instance is needed.</p>
+<p>Anonymous classes are eligible only if <strong>one</strong> instance is needed.</p>
 </li>
 <li>
 <p>Anonymous classes are ideal for implementing an interface that contains <strong>two</strong> or <strong>more</strong> methods.</p>
+</li>
+<li>
+<p>Anonymous classes are eligible if you need access to the members of its enclosing class.</p>
 </li>
 </ul>
 </div>
@@ -921,7 +1164,7 @@ Inner scope shadows outer scope
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2015-01-12 17:01:58 +01:00
+Last updated 2015-01-22 10:02:49 +01:00
 </div>
 <div style="color: #dddddd">
     <a href="https://twitter.com/KacperBak" class="twitter-follow-button" data-show-count="false" data-size="large">Follow @KacperBak</a>

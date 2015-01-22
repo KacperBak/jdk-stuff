@@ -232,6 +232,103 @@ public class OuterClass {
 * Anonymous classes also have the same **static** restrictions as local classes with respect to their members.
 * Like nested classes, **shadowing** is possible in case of declarations of same **type** with **same name** in inner and outer class.
 
+
+== Lambda Expressions
+* Like anonymous classes has lambda expressions the intention to pass **functionality** as an **argument**.
+* Before Java 8 it was always necessary to create an instance with 'new' belonging to a class that has a method with the desired code.
+* Lambda expression evaluation does **NOT cause** the **execution** of the expression's body, instead this **may occur** at a **later time** when an appropriate method of the functional interface is invoked.
+
+=== Syntax
+* A lambda expression is like a method declaration: it provides a list of formal **parameters** and a **body** expressed in terms of those parameters.
+* `Parameters` `->` `Body`
+* Cause of the **missing** __methodName__  consider lambda expressions as **anonymous methods**.
+....
+(int x, int y) -> x + y     // Lambda expression
+
+
+add(int x, int y){          // Method declaration
+    return x + y;
+}
+....
+
+==== Parameter
+* A comma-separated list of formal parameters.
+* The formal parameters of a lambda expression **may have** either explicitly **declared types** or implicitly **inferred types**. These styles cannot be mixed!
+....
+(int x, int y) -> x + y     // Declared-type parameters
+(x, y) -> x + y             // Inferred-type parameters
+....
+* Omit the parentheses too if there is only one parameter.
+....
+x -> x * x                  // Inferred-type parameter, no parantheses
+....
+
+* If the formal parameters have inferred types, then these types are derived from the functional interface type targeted by the lambda expression. See target type.
+
+
+==== Token
+* `->` separates the parameter list from the body.
+
+==== Body
+* Like a method body, a lambda body describes code that will be executed whenever an invocation occurs.
+* A lambda body is either a **single expression** or a **block**.
+* If you specify a **single expression**, then the Java runtime evaluates the expression and then returns its value.
+....
+x -> x * x
+....
+
+* In case of a **block**, the body has to be ether **void-compatible** OR **value-compatible**.
+* A block lambda body is **void-compatible** if every return statement in the block has the form `return;`
+....
+() -> {}
+() -> { System.out.println("done"); }           // Returns 'void'
+() -> System.out.println("done")                // A single void method invocation does NOT need braces!
+....
+
+* A block lambda body is **value-compatible** if it cannot **complete normally** (e.g. is not reachable, caused by `if` clause) and **every return statement** in the block has the form `return Expression;`.
+....
+() -> { return "done"; }                        // Returns a 'String' value
+() -> { if (...) return 1; else return 0; }     // In every case a value is returned!
+....
+
+* It is a compile-time error if a block lambda body is **NEITHER** void-compatible **NOR** value-compatible.
+....
+() -> { if (...) return "done"; System.out.println("done"); }   // Error!
+....
+
+////
+Simple example
+////
+
+.Further Facts
+....
+p -> p.getGender() == Person.Sex.MALE && p.getAge() >= 18 && p.getAge() <= 25
+....
+* p, which represents an instance of the Person class.
+
+=== Capturing
+* Any local variable, formal parameter, or exception parameter used but not declared in a lambda expression must either be declared **final** or be **effectively final**.
+* Any local variable used but not declared in a lambda body **must be** definitely **assigned** before the lambda body.
+
+=== Scope
+* Unlike code appearing in anonymous class declarations, the meaning of **names** and the **`this`** and **`super`** keywords appearing in a lambda body, along with the accessibility of referenced declarations, are the same as in the surrounding context.
+* Except that lambda parameters introduce new names.
+
+=== Target Typing
+* To determine the **type** of a lambda expression, the Java compiler uses the target type of the **context** or **situation** in which the lambda expression was found.
+* You can only use lambda expressions in situations in which the Java compiler can determine the target type.
+
+
+* Example: overload resolution and type argument inference
+
+=== Functional Interfaces
+* Evaluation of a lambda expression produces an instance of a functional interface.
+* So behind the scenes an object is created to maintain backwards compatibility.
+* Annotation: @FunctionalInterface - RealImpatient-P.7
+* In case of a simple interface that contains only **ONE** method.
+* Why use @FunctionalInterface? See Oracle Java Spec: Not so obvious cases
+
+
 == When to use what?
 === Nested classes
 * If a class is useful to only one other class, then it is logical to embed it in that class and keep the two together.
