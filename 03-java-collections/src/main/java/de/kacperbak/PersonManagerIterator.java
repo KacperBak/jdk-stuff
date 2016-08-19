@@ -8,24 +8,10 @@ import java.util.List;
 /**
  * Created by bakka on 08.01.15.
  */
-public class PersonManager {
+public class PersonManagerIterator extends AbstractPersonManager{
 
-    private List<Person> persons;
-
-    public PersonManager() {
-        this.persons = createPersons();
-    }
-
-    private List<Person> createPersons(){
-        this.persons = new ArrayList<>();
-        this.persons.add(new Person("Alex", 27));
-        this.persons.add(new Person("Ben", 37));
-        this.persons.add(new Person("Chris", 47));
-        return this.persons;
-    }
-
-    public List<Person> getPersons() {
-        return persons;
+    public PersonManagerIterator() {
+        super();
     }
 
     /**

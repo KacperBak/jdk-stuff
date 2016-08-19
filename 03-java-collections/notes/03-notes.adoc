@@ -1,4 +1,4 @@
-= 02 Nested classes
+= 03 Java collections
 Kacper Bak <http://kacperbak.de>
 
 :homepage: http://kacperbak.de
@@ -6,6 +6,9 @@ Kacper Bak <http://kacperbak.de>
 :docinfo1: docinfo-footer.html
 
 
+== Goal
+Filter a collection for a condition and remove that item from that collection.
+The used domain class is `Person`.
 
 == Sources
 * http://docs.oracle.com/javase/tutorial/collections/interfaces/collection.html[The Java™ Tutorials - The Collection Interface]
